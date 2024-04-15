@@ -11,9 +11,10 @@ struct SettingView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    private var displayOrders = [ "Alfabética", "Elija restorant favorito", "Show Check-in First"]
+    //private var displayOrders = [ "Alfabética", "Primero restorant favorito", "Primero los visitados"]
     
-    @State private var selectedOrder = 0
+    @State private var selectedOrder = DisplayOrderType.alphabetical
+    //@State private var selectedOrder = 0
     @State private var showCheckInOnly = false
     @State private var maxPriceLevel = 5
     
@@ -22,8 +23,9 @@ struct SettingView: View {
             Form {
                 Section(header: Text("Su bar favorito")) {
                     Picker(selection: $selectedOrder, label: Text("Ordenar alfabéticamente")) {
-                        ForEach(0 ..< displayOrders.count, id: \.self) {
-                            Text(self.displayOrders[$0])
+                        ForEach(DisplayOrderType.allCases, id: \.self) {
+                            orderType in
+                            Text(orderType.text)
                         }
                     }
                 }
@@ -46,7 +48,7 @@ struct SettingView: View {
                             self.maxPriceLevel = 1
                         }
                     }) {
-                        Text("Show \(String(repeating: "$", count: maxPriceLevel)) or below")
+                        Text("Mostrar \(String(repeating: "$", count: maxPriceLevel)) o menos")
                     }
                 }
             }
